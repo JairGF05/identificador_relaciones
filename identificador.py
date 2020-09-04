@@ -143,9 +143,9 @@ class Ui_MainWindow(object):
                
         #conversion de la lisa de cadenas a lista de numeros
         conjunto = list(map(int, set))
-        # print(cadena)   
+        print(cadena)   
         # print(set)
-        # print(conjunto)
+        print(conjunto)
         
         #ahora obtenemos la entrada de la relacion
         relation = []
