@@ -3,12 +3,13 @@ from functions import *
 from graph2 import *
 
 def run():
-    #set = [1, 2, 3, 4, 5]
-    set = ['a', 'b', 'c', 'd']
+    set = [2,4,6,9,12,18,27,36,48,60,72]
+    #set = ['a', 'b', 'c', 'd']
     #set = [1,2,3,4,5]
     #relation =((1,1), (2,2), (3,3),(4,4),(10,10), (20,20),(1,2) )
-    relation =(('a','a'),('a','d'),('d','d'),('d','a'),('b','b'),('b','c'),('c','c'),('c','b'))
-    #relation = [(1,1),(2,2),(3,3),(4,4),(5,5),(1,3),(2,4),(3,5),(3,1),(4,2),(5,3)]
+    #relation =(('a','a'),('a','d'),('d','d'),('d','a'),('b','b'),('b','c'),('c','c'),('c','b'))
+    relation = [(2, 2), (4,4), (6,6),(9,9),(12,12), (18,18), (27,27),(36,36), (48,48), (60,60), (72,72), (72,2)]
+    conjunto = [2,9]
     print("comprueba tipo de relaciones")
     print("reflexiva: ", is_reflexive(relation,set))
     print("simétrica: ",is_symmetric(relation))
@@ -23,10 +24,12 @@ def run():
     print(print_symmetric(relation))
     print(print_transitive(relation))
     print(print_equivalence_relation(set,relation))
-    print(print_parcial_order_relation(set, relation))
+    print(print_parcial_order_relation(set, relation, conjunto))
+    
     
     #funcion para dibujado de grafo, cambiar a que imprima grafo solo si es de equivalencia
-    draw_graph(relation)
+    if (is_equivalence_relation(set,relation)):
+        draw_graph(relation)
 
 if __name__ == '__main__':
     run()

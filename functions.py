@@ -1,3 +1,64 @@
+def print_is_lattice(poset,conjunto):
+    cs = cotas_superiores(poset,conjunto)
+    ci = cotas_inferiores(poset,conjunto)
+    if cs:
+        if ci:
+            print("Es reticula")
+        else:
+          print("No es reticula, porque no tiene cotas inferiores")  
+    else:
+        print("No es reticula, porque no tiene cotas superiores")
+def print_minima_cota_superior(poset, conjunto):
+    cs = cotas_superiores(poset,conjunto)
+    if cs:
+        print("Cotas superiores: " ,cs)
+        mcs = minima_cota_superior(cs)
+        print ("Minima cota superior: ",mcs)
+
+def print_maxima_cota_inferior(poset, conjunto):
+    ci = cotas_inferiores(poset,conjunto)
+    if ci:
+        print("Cotas inferiores: " ,ci)
+        mci = maxima_cota_inferior(ci)
+        print ("Maxima cota inferior: ",mci)
+
+def cotas_superiores(poset,conjunto):
+    cs = []
+    for number in poset:
+        isCotaSuperior = True
+        for element in conjunto:
+            if (number > element):
+                if (number % element != 0):
+                    isCotaSuperior = False
+            else:
+                isCotaSuperior = False
+        if (isCotaSuperior):
+            cs.append(number)
+            isCotaSuperior = True
+    return cs
+
+def cotas_inferiores(poset,conjunto):
+    ci = []
+    for number in poset:
+        isCotaInferior = True
+        for element in conjunto:
+            if (number < element):
+                if (element % number != 0):
+                    isCotaInferior = False
+            else:
+                isCotaInferior = False
+        if (isCotaInferior):
+            ci.append(number)
+            isCotaInferior = True
+    return ci
+
+def minima_cota_superior(cotas_superiores):
+    return cotas_superiores[0]
+
+def maxima_cota_inferior(cotas_inferiores):
+    return cotas_inferiores[len(cotas_inferiores)- 1]
+
+
 def transitive_missing_elements(relation):
     missingElements = []
     for a,b in relation:
@@ -109,9 +170,12 @@ def print_equivalence_relation(set, relation):
         result = result + "reflexiva, "
     return result + "por lo tanto no es de equivalencia"
 
-def print_parcial_order_relation(set, relation):
+def print_parcial_order_relation(set, relation,conjunto):
     if (is_reflexive(relation, set) == True) and (is_antisymmetric(relation) == True) and (is_transitive(relation) == True):
-        return "Las relación es reflexiva, antisimétrica y transitiva por lo tanto es de orden parcial, (dibuje diagrama de Hasse)"
+        print_maxima_cota_inferior(set,conjunto)
+        print_minima_cota_superior(set,conjunto)
+        print_is_lattice(set,conjunto)
+        return "Las relación es reflexiva, antisimétrica y transitiva por lo tanto es de orden parcial"
     result = "La relación no es "
     if (is_transitive(relation) == False):
         result = result + "transitiva, "
