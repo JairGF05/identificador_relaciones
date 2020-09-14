@@ -21,7 +21,7 @@ def comprobar_relaciones(Relación,Conjunto):
     print("Simétrica: ", "Si" if is_symmetric(Relación) else "No")
     print("Antisimétrica: ", "Si" if is_antisymmetric(Relación) else "No")
     print("Transitiva: ", "Si" if  is_transitive(Relación) else "No")
-    print("Relación de quivalencia: ", "Si" if is_equivalence_relation(Conjunto,Relación) else "No")
+    print("Relación de equivalencia: ", "Si" if is_equivalence_relation(Conjunto,Relación) else "No")
     print("Relación de orden parcial: ", "Si" if is_parcial_order_relation(Conjunto, Relación) else "No")
     print("")
     print("########## Justificación: ##########")
