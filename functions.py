@@ -3,9 +3,9 @@ from graph2 import *
 
 def orden_o_equivalencia(Conjunto,Relación,elementosAB):
     print(print_parcial_order_relation(Conjunto, Relación, elementosAB))
+    print(print_equivalence_relation(Conjunto,Relación))
     print("")
     if (is_equivalence_relation(Conjunto,Relación)):
-        print(print_equivalence_relation(Conjunto,Relación))
         draw_graph(Relación)
     if (is_parcial_order_relation(Conjunto,Relación)):
         print("########## Reticula: ##########")
