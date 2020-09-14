@@ -9,7 +9,6 @@ def orden_o_equivalencia(Conjunto,Relación,elementosAB):
         draw_graph(Relación)
     if (is_parcial_order_relation(Conjunto,Relación)):
         print("########## Reticula: ##########")
-        elementosAB = [2,9] #Conjunto para determinar cotas inferiores y superiores 
         if (is_parcial_order_relation(Conjunto,Relación)):
             print_maxima_cota_inferior(Conjunto,elementosAB)
             print_minima_cota_superior(Conjunto,elementosAB)
