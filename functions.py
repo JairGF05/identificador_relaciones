@@ -1,3 +1,34 @@
+from graphviz import Digraph
+from graph2 import *
+
+def orden_o_equivalencia(Conjunto,Relación,elementosAB):
+    print(print_parcial_order_relation(Conjunto, Relación, elementosAB))
+    print("")
+    if (is_equivalence_relation(Conjunto,Relación)):
+        print(print_equivalence_relation(Conjunto,Relación))
+        draw_graph(Relación)
+    if (is_parcial_order_relation(Conjunto,Relación)):
+        print("########## Reticula: ##########")
+        elementosAB = [2,9] #Conjunto para determinar cotas inferiores y superiores 
+        if (is_parcial_order_relation(Conjunto,Relación)):
+            print_maxima_cota_inferior(Conjunto,elementosAB)
+            print_minima_cota_superior(Conjunto,elementosAB)
+            print_is_lattice(Conjunto,elementosAB)
+
+def comprobar_relaciones(Relación,Conjunto):
+    print("########## La relación es: ##########")
+    print("Reflexiva: ", "Si" if is_reflexive(Relación,Conjunto) else "No")
+    print("Simétrica: ", "Si" if is_symmetric(Relación) else "No")
+    print("Antisimétrica: ", "Si" if is_antisymmetric(Relación) else "No")
+    print("Transitiva: ", "Si" if  is_transitive(Relación) else "No")
+    print("Relación de quivalencia: ", "Si" if is_equivalence_relation(Conjunto,Relación) else "No")
+    print("Relación de orden parcial: ", "Si" if is_parcial_order_relation(Conjunto, Relación) else "No")
+    print("")
+    print("########## Justificación: ##########")
+    print(print_reflexive(Relación,Conjunto))
+    print(print_symmetric(Relación))
+    print(print_transitive(Relación))
+
 def print_is_lattice(poset,conjunto):
     cs = cotas_superiores(poset,conjunto)
     ci = cotas_inferiores(poset,conjunto)
@@ -8,6 +39,7 @@ def print_is_lattice(poset,conjunto):
           print("No es reticula, porque no tiene cotas inferiores")  
     else:
         print("No es reticula, porque no tiene cotas superiores")
+        
 def print_minima_cota_superior(poset, conjunto):
     cs = cotas_superiores(poset,conjunto)
     if cs:
@@ -99,7 +131,7 @@ def print_reflexive(relation, set):
     else:
         for element in set:
             reflexive_pairs.append("("+str(element)+","+ str (element)+")")
-        return "la relacion es reflexiva, porque los siguientes pares estan incluidos:" + str(reflexive_pairs)
+        return "La relacion es reflexiva, porque los siguientes pares estan incluidos:" + str(reflexive_pairs)
 
 def reflexive_missing_elements(relation, set):
     """Returns missing elements to a reflexive relation"""
@@ -125,9 +157,9 @@ def print_symmetric(Relation):
         else:
             result = result + "La relación no es simetrica porque hacen falta el par : " + str(missingElements) +'\n'
         if (is_antisymmetric(Relation)) :
-            result = result + "La relación es antisimétrica "'\n'
+            result = result + "La relación es antisimétrica "
     else:
-        result = result + "La relación es simetrica para cada par (a,b) existe un par (b,a)" +'\n' + "Por lo tanto la relación no es antisimétrica ni asimétrica"
+        result = result + '\n'"La relación es simetrica para cada par (a,b) existe un par (b,a)" +'\n' + "Por lo tanto la relación no es antisimétrica ni asimétrica"
     return result
 
     
@@ -171,10 +203,7 @@ def print_equivalence_relation(set, relation):
     return result + "por lo tanto no es de equivalencia"
 
 def print_parcial_order_relation(set, relation,conjunto):
-    if (is_reflexive(relation, set) == True) and (is_antisymmetric(relation) == True) and (is_transitive(relation) == True):
-        print_maxima_cota_inferior(set,conjunto)
-        print_minima_cota_superior(set,conjunto)
-        print_is_lattice(set,conjunto)
+    if (is_parcial_order_relation(set,relation)):
         return "Las relación es reflexiva, antisimétrica y transitiva por lo tanto es de orden parcial"
     result = "La relación no es "
     if (is_transitive(relation) == False):
