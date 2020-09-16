@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
+from functions import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
         
         #aqui se ingresa la relacion
         self.entrada_relacion = QtWidgets.QTextEdit(self.centralwidget)
-        self.entrada_relacion.setGeometry(QtCore.QRect(140, 170, 411, 101))
+        self.entrada_relacion.setGeometry(QtCore.QRect(140, 170, 450, 101))
         self.entrada_relacion.setObjectName("entrada_relacion")
         
         #esta es la etiqueta resultado
@@ -73,8 +73,9 @@ class Ui_MainWindow(object):
         self.resultado.setObjectName("resultado")
         
         #aqui se mostrara el resultado de que tipo de relacion es
-        self.salida_relacion = QtWidgets.QLabel(self.centralwidget)
-        self.salida_relacion.setGeometry(QtCore.QRect(20, 310, 151, 211))
+        self.salida_relacion = QtWidgets.QTextEdit(self.centralwidget)
+        self.salida_relacion.setReadOnly(True)
+        self.salida_relacion.setGeometry(QtCore.QRect(40, 310, 451, 211))
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(12)
@@ -83,6 +84,7 @@ class Ui_MainWindow(object):
         self.salida_relacion.setObjectName("salida_relacion")
         
         #esta es la etiqueta grafo
+        '''
         self.grafo = QtWidgets.QLabel(self.centralwidget)
         self.grafo.setGeometry(QtCore.QRect(290, 290, 61, 16))
         font = QtGui.QFont()
@@ -99,7 +101,8 @@ class Ui_MainWindow(object):
         self.salida_grafo.setFont(font)
         self.salida_grafo.setText("")
         self.salida_grafo.setObjectName("salida_grafo")
-        
+        '''
+
         #boton iniciar
         self.iniciar = QtWidgets.QPushButton(self.centralwidget)
         self.iniciar.setGeometry(QtCore.QRect(40, 540, 75, 23))
@@ -127,28 +130,32 @@ class Ui_MainWindow(object):
         self.conjunto.setText(_translate("MainWindow", "Conjunto: "))
         self.relacion.setText(_translate("MainWindow", "Relación:"))
         self.resultado.setText(_translate("MainWindow", "Resultado:"))
-        self.grafo.setText(_translate("MainWindow", "Grafo:"))
+        #self.grafo.setText(_translate("MainWindow", "Grafo:"))
         self.iniciar.setText(_translate("MainWindow", "Iniciar"))
+
 
     #obtener conjunto de entrada_conjunto
     #obtener relacion de entrada_relacion
     def relaciones(self):
-        set = []
-        cadena = self.entrada_conjunto.text()
-        cadena = cadena.replace(',', '')
-        #agregando cadena a lista
-        
-        for letra in cadena:
-               set.append(letra)
-               
+        conjuntoString = self.entrada_conjunto.text()
+        conjuntoString = conjuntoString.replace('(', '').replace(')','')
+        conjunto = conjuntoString.split(',')
+       
+        relationString = self.entrada_relacion.toPlainText()
+        if (relationString != ''):
+            relation = relationString.split('),(')
+            for position in range(0,len(relation)):
+                subrelation = relation[position].replace('(', '').replace(')','').split(',')
+                relation[position] = turnToNumberSet(subrelation)
+
         #conversion de la lisa de cadenas a lista de numeros
-        conjunto = list(map(int, set))
-        print(cadena)   
-        # print(set)
-        print(conjunto)
+        conjunto = turnToNumberSet(conjunto)
+
+        #combrobar las relaciones
+        elementosAB = []
+        orden_equivalencia = orden_o_equivalencia(conjunto,relation,elementosAB)
+        self.salida_relacion.setText(str(comprobar_relaciones(relation,conjunto)) + str(orden_equivalencia))
         
-        #ahora obtenemos la entrada de la relacion
-        relation = []
         
         
        
