@@ -1,8 +1,8 @@
 from graphviz import Digraph
 from graph2 import *
 
-def orden_o_equivalencia(Conjunto,Relación,elementosAB):
-    res = str('\n' + print_parcial_order_relation(Conjunto, Relación, elementosAB))
+def orden_o_equivalencia(Conjunto,Relación):
+    res = str('\n' + print_parcial_order_relation(Conjunto, Relación))
     res = res + str('\n' + print_equivalence_relation(Conjunto,Relación))
     res = res + str('\n'"")
     if (is_equivalence_relation(Conjunto,Relación)):
@@ -10,9 +10,7 @@ def orden_o_equivalencia(Conjunto,Relación,elementosAB):
     if (is_parcial_order_relation(Conjunto,Relación)):
         res = res + str('\n'"########## Reticula: ##########")
         if (is_parcial_order_relation(Conjunto,Relación)):
-            res = res + str('\n' + print_maxima_cota_inferior(Conjunto,elementosAB))
-            res = res + str('\n' + print_minima_cota_superior(Conjunto,elementosAB))
-            res = res + str('\n' + print_is_lattice(Conjunto,elementosAB))
+            res = res + str('\n' + print_is_lattice(Conjunto))
     return res
 
 def comprobar_relaciones(Relación,Conjunto):
@@ -36,17 +34,33 @@ def comprobar_relaciones(Relación,Conjunto):
     res = res + str('\n' + print_transitive(Relación))
     return res
 
-def print_is_lattice(poset,conjunto):
-    cs = cotas_superiores(poset,conjunto)
-    ci = cotas_inferiores(poset,conjunto)
+def print_is_lattice(poset):
+    auxConjunto = poset
+    islattice = True
+    elements = []
+    missingCota = ""
+    for element in poset:
+        for auxElement in auxConjunto:
+            if element != auxElement:
+                cs = cotas_superiores(poset,(element,auxElement))
+                ci = cotas_inferiores(poset,(element,auxElement))
+                if not cs:
+                    islattice = False
+                    elements.append((element,auxElement))
+                    missingCota = "superiores"
+                    break          
+                if not ci:
+                    islattice = False
+                    elements.append((element,auxElement))
+                    missingCota = "inferiores"
+                    break
+        if not islattice:
+            break
     res = ""
-    if cs:
-        if ci:
-            res = str("Es reticula")
-        else:
-          res = str("No es reticula, porque no tiene cotas inferiores")  
+    if islattice:
+        res = str("Es reticula")
     else:
-        res = str("No es reticula, porque no tiene cotas superiores")
+        res = str("No es reticula, porque hacen falta cotas "+ missingCota + " en el par "+ str(elements))
     return res
         
 def print_minima_cota_superior(poset, conjunto):
@@ -215,7 +229,7 @@ def print_equivalence_relation(set, relation):
         result = result + "reflexiva, "
     return result + "por lo tanto no es de equivalencia"
 
-def print_parcial_order_relation(set, relation,conjunto):
+def print_parcial_order_relation(set, relation):
     if (is_parcial_order_relation(set,relation)):
         return "Las relación es reflexiva, antisimétrica y transitiva por lo tanto es de orden parcial"
     result = "La relación no es "

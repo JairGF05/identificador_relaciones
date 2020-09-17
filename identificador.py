@@ -152,8 +152,7 @@ class Ui_MainWindow(object):
         conjunto = turnToNumberSet(conjunto)
 
         #combrobar las relaciones
-        elementosAB = []
-        orden_equivalencia = orden_o_equivalencia(conjunto,relation,elementosAB)
+        orden_equivalencia = orden_o_equivalencia(conjunto,relation)
         self.salida_relacion.setText(str(comprobar_relaciones(relation,conjunto)) + str(orden_equivalencia))
         
         
