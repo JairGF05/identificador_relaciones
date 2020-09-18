@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from functions import *
+from hasse_diagram import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
