@@ -1,4 +1,6 @@
-digraph G {
-	size=0.8
-	node [height=0.4 width=0.4]
+graph G {
+	size=.5
+	node [height=.2 width=.2]
+	c -- b
+	b -- a
 }
