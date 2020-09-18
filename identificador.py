@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(797, 591)
+        MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         
@@ -106,11 +106,36 @@ class Ui_MainWindow(object):
 
         #boton iniciar
         self.iniciar = QtWidgets.QPushButton(self.centralwidget)
-        self.iniciar.setGeometry(QtCore.QRect(40, 540, 75, 23))
+        self.iniciar.setGeometry(QtCore.QRect(40, 540, 75, 25))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.iniciar.setFont(font)
-        self.iniciar.setObjectName("iniciar")
+        self.iniciar.setObjectName("Iniciar")
+
+        #boton ejemplo 1
+        self.ejemplo1 = QtWidgets.QPushButton(self.centralwidget)
+        self.ejemplo1.setGeometry(QtCore.QRect(620, 100, 150, 30))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.ejemplo1.setFont(font)
+        self.ejemplo1.setObjectName("Ej. Orden parcial")
+
+        #boton ejemplo 2
+        self.ejemplo2 = QtWidgets.QPushButton(self.centralwidget)
+        self.ejemplo2.setGeometry(QtCore.QRect(620, 135, 150, 30))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.ejemplo2.setFont(font)
+        self.ejemplo2.setObjectName("Ej. Equivalencia")
+
+        #boton ejemplo 3
+        self.ejemplo3 = QtWidgets.QPushButton(self.centralwidget)
+        self.ejemplo3.setGeometry(QtCore.QRect(620, 170, 100, 30))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.ejemplo3.setFont(font)
+        self.ejemplo3.setObjectName("Ej. Neutro")
+        
         
         
         MainWindow.setCentralWidget(self.centralwidget)
@@ -120,6 +145,9 @@ class Ui_MainWindow(object):
 
         #aqui linkeamos el boton
         self.iniciar.clicked.connect(self.relaciones)
+        self.ejemplo1.clicked.connect(self.button_ejemplo1)
+        self.ejemplo2.clicked.connect(self.button_ejemplo2)
+        self.ejemplo3.clicked.connect(self.button_ejemplo3)
         
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -133,35 +161,56 @@ class Ui_MainWindow(object):
         self.resultado.setText(_translate("MainWindow", "Resultado:"))
         #self.grafo.setText(_translate("MainWindow", "Grafo:"))
         self.iniciar.setText(_translate("MainWindow", "Iniciar"))
+        self.ejemplo1.setText(_translate("MainWindow", "Ej.Orden parcial"))
+        self.ejemplo2.setText(_translate("MainWindow", "Ej.Equivalencia"))
+        self.ejemplo3.setText(_translate("MainWindow", "Ej.Neutro"))
 
-
-    #obtener conjunto de entrada_conjunto
-    #obtener relacion de entrada_relacion
+    #obtener relacion y conjunto de entrada
     def relaciones(self):
         conjuntoString = self.entrada_conjunto.text()
+        relationString = self.entrada_relacion.toPlainText()
+        self.analisis_relacion(conjuntoString,relationString)
+
+
+
+    def analisis_relacion(self,conjuntoString, relationString):
         conjuntoString = conjuntoString.replace('(', '').replace(')','')
         conjunto = conjuntoString.split(',')
-       
-        relationString = self.entrada_relacion.toPlainText()
         if (relationString != ''):
             relation = relationString.split('),(')
             for position in range(0,len(relation)):
                 subrelation = relation[position].replace('(', '').replace(')','').split(',')
                 relation[position] = turnToNumberSet(subrelation)
-
-        #conversion de la lisa de cadenas a lista de numeros
         conjunto = turnToNumberSet(conjunto)
-
         #combrobar las relaciones
         orden_equivalencia = orden_o_equivalencia(conjunto,relation)
         self.salida_relacion.setText(str(comprobar_relaciones(relation,conjunto)) + str(orden_equivalencia))
-        
-        
-        
-       
-        
+
+    def button_ejemplo1(self):
+    # Orden parcial
+        conjunto = "2,4,6,9,12,18,27,36,48,60,72"
+        relacion = "(2,2),(2,4),(2,6),(2,12),(2,18),(2,36),(2,48),(2,60),(2,72),(4,4),(4,12),(4,36),(4,48),(4,60),(4,72),(6,6),(6,12),(6,18),(6,36),(6,48),(6,60),(6,72),(9,9),(9,18),(9,36),(9,72),(12,12),(12,36),(12,48),(12,60),(12,72),(18,18),(18,36),(18,72),(27,27),(36,36),(36,72),(48,48),(60,60),(72,72)"
+        self.entrada_conjunto.setText(str(conjunto))
+        self.entrada_relacion.setText(str(relacion))
+        self.analisis_relacion(conjunto,relacion)
+
+    def button_ejemplo2(self):
+    # equivalencia
+        conjunto ="a,b,c,d"
+        relacion ="(a,a),(a,d),(d,d),(d,a),(b,b),(b,c),(c,c),(c,b)"
+        self.entrada_conjunto.setText(str(conjunto))
+        self.entrada_relacion.setText(str(relacion))
+        self.analisis_relacion(conjunto,relacion)
+
+    def button_ejemplo3(self):
+    # Orden parcial
+        conjunto = "0,1,2,3"
+        relacion = "(1,1),(2,2),(3,3),(4,4),(6,6),(12,12),(1,2),(1,3),(1,4),(1,6),(1,12),(2,3),(2,4),(2,6),(2,12),(3,4),(3,6),(3,12),(4,6),(4,12),(6,12)"
+        self.entrada_conjunto.setText(str(conjunto))
+        self.entrada_relacion.setText(str(relacion))
+        self.analisis_relacion(conjunto,relacion)
+
     
-        
         
 if __name__ == "__main__":
     import sys
