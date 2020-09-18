@@ -29,5 +29,5 @@ Relación = [(1,1),(2,2),(3,3),(4,4),(6,6),(12,12),(1,2),(1,3),(1,4),(1,6),(1,12
 comprobar_relaciones(Relación,Conjunto)
 ## Se imprimen los resultados si la relación es de orden o de equivalencia
 ## Si la relación es de equivalencia se obtendra las cotas de los elementos AB
-elementosAB = [2,3]
-orden_o_equivalencia(Conjunto,Relación,elementosAB)
+#elementosAB = [2,3]
+orden_o_equivalencia(Conjunto,Relación)

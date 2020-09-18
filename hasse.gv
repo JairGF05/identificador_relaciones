@@ -1,0 +1,4 @@
+digraph G {
+	size=0.8
+	node [height=0.4 width=0.4]
+}
