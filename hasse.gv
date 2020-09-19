@@ -1,6 +1,9 @@
 graph G {
 	size=.5
 	node [height=.2 width=.2]
-	c -- b
-	b -- a
+	36 -- 12
+	24 -- 6
+	12 -- 3
+	12 -- 2
+	2 -- 1
 }
