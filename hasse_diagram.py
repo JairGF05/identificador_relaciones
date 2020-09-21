@@ -89,6 +89,7 @@ def run():
     #             (24,48),(36,36),(48,48)]
     
    
+   
     draw_hasse(relation,set)
     
     
