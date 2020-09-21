@@ -184,6 +184,8 @@ class Ui_MainWindow(object):
         #combrobar las relaciones
         orden_equivalencia = orden_o_equivalencia(conjunto,relation)
         self.salida_relacion.setText(str(comprobar_relaciones(relation,conjunto)) + str(orden_equivalencia))
+        if (is_parcial_order_relation):
+            draw_hasse(relation, conjunto)
 
     def button_ejemplo1(self):
     # Orden parcial
