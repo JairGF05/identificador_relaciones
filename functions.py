@@ -214,7 +214,6 @@ def is_equivalence_relation(set, relation):
 
 def is_parcial_order_relation(set, relation):
     if (is_reflexive(relation, set) == True) and (is_antisymmetric(relation) == True) and (is_transitive(relation) == True):
-        draw_hasse(relation, set)
         return True
     return False
 
