@@ -8,9 +8,15 @@
 
 from functions import *
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
 
 
 class Ui_MainWindow(object):
+    def __init__(self):
+        super().__init__()
+        self.MainWindow = QtWidgets.QMainWindow()
+        self.setupUi(self.MainWindow)
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
@@ -114,7 +120,7 @@ class Ui_MainWindow(object):
 
         #boton ejemplo 1
         self.ejemplo1 = QtWidgets.QPushButton(self.centralwidget)
-        self.ejemplo1.setGeometry(QtCore.QRect(620, 100, 150, 30))
+        self.ejemplo1.setGeometry(QtCore.QRect(620, 100, 160, 30))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.ejemplo1.setFont(font)
@@ -122,7 +128,7 @@ class Ui_MainWindow(object):
 
         #boton ejemplo 2
         self.ejemplo2 = QtWidgets.QPushButton(self.centralwidget)
-        self.ejemplo2.setGeometry(QtCore.QRect(620, 135, 150, 30))
+        self.ejemplo2.setGeometry(QtCore.QRect(620, 135, 160, 30))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.ejemplo2.setFont(font)
@@ -130,11 +136,19 @@ class Ui_MainWindow(object):
 
         #boton ejemplo 3
         self.ejemplo3 = QtWidgets.QPushButton(self.centralwidget)
-        self.ejemplo3.setGeometry(QtCore.QRect(620, 170, 100, 30))
+        self.ejemplo3.setGeometry(QtCore.QRect(620, 170, 160, 30))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.ejemplo3.setFont(font)
         self.ejemplo3.setObjectName("Ej. Neutro")
+
+        #boton importar ejemplo
+        self.importarej = QtWidgets.QPushButton(self.centralwidget)
+        self.importarej.setGeometry(QtCore.QRect(620, 205, 160, 30))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.importarej.setFont(font)
+        self.importarej.setObjectName("Ej. Importar")
         
         
         
@@ -148,9 +162,11 @@ class Ui_MainWindow(object):
         self.ejemplo1.clicked.connect(self.button_ejemplo1)
         self.ejemplo2.clicked.connect(self.button_ejemplo2)
         self.ejemplo3.clicked.connect(self.button_ejemplo3)
+        self.importarej.clicked.connect(self.importar_ejemplo)
         
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        MainWindow.show()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -164,6 +180,7 @@ class Ui_MainWindow(object):
         self.ejemplo1.setText(_translate("MainWindow", "Ej.Orden parcial"))
         self.ejemplo2.setText(_translate("MainWindow", "Ej.Equivalencia"))
         self.ejemplo3.setText(_translate("MainWindow", "Ej.Neutro"))
+        self.importarej.setText(_translate("MainWindow", "Importar ejemplo"))
 
     #obtener relacion y conjunto de entrada
     def relaciones(self):
@@ -174,9 +191,10 @@ class Ui_MainWindow(object):
 
 
     def analisis_relacion(self,conjuntoString, relationString):
-        conjuntoString = conjuntoString.replace('(', '').replace(')','')
+        conjuntoString = conjuntoString.replace('(', '').replace(')','').replace('{','').replace('}','').strip()
         conjunto = conjuntoString.split(',')
         if (relationString != ''):
+            relationString = relationString.replace('{','').replace('}','').strip()
             relation = relationString.split('),(')
             for position in range(0,len(relation)):
                 subrelation = relation[position].replace('(', '').replace(')','').split(',')
@@ -199,7 +217,7 @@ class Ui_MainWindow(object):
         self.analisis_relacion(conjunto,relacion)
 
     def button_ejemplo2(self):
-    # equivalencia
+    # equivalencia55
         conjunto ="a,b,c,d"
         relacion ="(a,a),(a,d),(d,d),(d,a),(b,b),(b,c),(c,c),(c,b)"
         self.entrada_conjunto.setText(str(conjunto))
@@ -213,14 +231,38 @@ class Ui_MainWindow(object):
         self.entrada_conjunto.setText(str(conjunto))
         self.entrada_relacion.setText(str(relacion))
         self.analisis_relacion(conjunto,relacion)
+    
+    def importar_ejemplo(self):    
+        options = QFileDialog.Options()
+        fileName, _ = QFileDialog.getOpenFileName(self.MainWindow,"Elige ejemplo a importar", "","Text Files (*.txt)", options=options)
+        if fileName:
+            #print(fileName)
+            archivo = open(fileName,"r")
+            conjunto = ""
+            relacion = ""
+            for linea in archivo.readlines():
+                if ("conjunto" in linea or "set" in linea):
+                    index = linea.index("=")
+                    conjunto = linea[index + 1:]
+                if ("relacion" in linea or "relation" in linea):
+                    index = linea.index("=")
+                    relacion = linea[index + 1:]
+            if (conjunto and relacion):
+                conjunto =  conjunto.replace('{','').replace('}','').strip()
+                relacion =  relacion.replace('{','').replace('}','').strip()
+                self.entrada_conjunto.setText(str(conjunto))
+                self.entrada_relacion.setText(str(relacion))
+                self.analisis_relacion(conjunto,relacion)
+
+            
+                
+            archivo.close()
+
 
     
         
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
     sys.exit(app.exec_())
