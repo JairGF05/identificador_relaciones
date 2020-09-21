@@ -83,8 +83,9 @@ class Ui_MainWindow(object):
         self.salida_relacion.setText("")
         self.salida_relacion.setObjectName("salida_relacion")
         
-        #esta es la etiqueta grafo
         '''
+        #esta es la etiqueta grafo
+        
         self.grafo = QtWidgets.QLabel(self.centralwidget)
         self.grafo.setGeometry(QtCore.QRect(290, 290, 61, 16))
         font = QtGui.QFont()
