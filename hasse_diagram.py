@@ -17,8 +17,8 @@ def draw_hasse(relation, set):
     #modificando el tamaño de los nodos
     g.attr('node', width = '.2', height ='.2')
     
-    print('relacion original')
-    print(relation)
+    #print('relacion original')
+    #print(relation)
    
     
     #removiendo transitivos
@@ -30,32 +30,47 @@ def draw_hasse(relation, set):
     
     #removiendo reflexivos
     for element in set:
-        if (element, element) in relation:
-            relation.remove((element,element))
-    print('relacion sin reflexivos')
-    print(relation)
+        if [element, element] in relation:
+            relation.remove([element,element])
+    #print('relacion sin reflexivos')
+    #print(relation)
     
     #removiendo transitivos 2
+    analizar = True
+    
+    while (analizar):
+        elementos_removidos = []
+        for a,b in relation:
+            for c,d in relation:
+                if b == c and ([a,d] in relation):
+                    relation.remove([a,d])
+                    elementos_removidos.append([a,d])
+        if len(elementos_removidos) == 0:
+            analizar = False
+            
+
+    #print('relación sin transitivos')
+    #print(relation)
+
+    #removiendo transitivos a nivel 2
     for a,b in relation:
         for c,d in relation:
-            if b == c and ((a,d) in relation):
-                relation.remove((a,d))
-    print('relación sin transitivos')
-    print(relation)
-                    
-    
+            for e,f in relation:
+                if d == e and b== c and ([a,f] in relation):
+                    relation.remove([a,f])
+
     
     #relation = [(1, 2),(1,3),(2,6),(2, 12),(3,6), (3, 12), (6, 24),(6,36),(12,24),(12, 36)]
     
     #invirtiendo lista de nodos
     new_rel = []
     for a,b in reversed(relation) :
-       new_rel.append((b,a))
+       new_rel.append([b,a])
        
-    print('relacion en reversa')   
-    print(new_rel)
-    
-    
+    #print('relacion en reversa')   
+    #print(new_rel)
+
+   
     # dibujando grafo
     for a,b in new_rel:
         g.edge(str(a), str(b))
