@@ -96,9 +96,9 @@ def cotas_superiores(poset,conjunto):
             cs.append(number)
             isCotaSuperior = True
     if conjunto:
-        if (conjunto[0] > conjunto[1]):
+        if (conjunto[0] > conjunto[1] and conjunto[0] % conjunto[1] == 0):
             cs.append(conjunto[0])
-        if (conjunto[0] < conjunto[1]):
+        if (conjunto[1] > conjunto[0] and conjunto[1] % conjunto[0] == 0):
             cs.append(conjunto[1])
     return cs
 
@@ -116,9 +116,9 @@ def cotas_inferiores(poset,conjunto):
             ci.append(number)
             isCotaInferior = True
     if conjunto:
-        if (conjunto[0] > conjunto[1]):
+        if (conjunto[0] < conjunto[1] and conjunto[1] % conjunto[0] == 0):
             ci.append(conjunto[0])
-        if (conjunto[0] < conjunto[1]):
+        if (conjunto[1] < conjunto[0] and conjunto[0] % conjunto[1] == 0):
             ci.append(conjunto[1])
     return ci
 
